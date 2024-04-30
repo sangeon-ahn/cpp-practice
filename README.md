@@ -1,2 +1,2 @@
 # cpp-practice
-algorithms, data structure, standard libraries, etc
+algorithms, data structures, stl containers, etc
