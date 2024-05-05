@@ -2,13 +2,13 @@
 algorithms, data structures, stl containers, etc
 
 ## Process
-- self implementation <-> learning by best practice
+self implementation <-> learning by best practice
 
 ## Implementation List
 ### Algorithms
-- [ ] merge sort
-- [ ] quick sort
-- [ ] radix sort
+- [ ] Merge Sort
+- [ ] Quick Sort
+- [ ] Radix Sort
 ### Data Structures
 - [ ] Linked List
 - [ ] Doubly Linked List
@@ -18,4 +18,4 @@ algorithms, data structures, stl containers, etc
 - [ ] Red Black Tree
 - [ ] B Tree
 ### STL Containers
-- [ ] vector
+- [ ] Vector
