@@ -12,8 +12,8 @@ class Node
 
         int getItem() const { return m_item; }
         void setItem(int item) { m_item = std::move(item); }
-        void setNext(Node* p) {m_next = std::move(p); }
         Node* getNext() {return m_next;}
+        void setNext(Node* p) {m_next = std::move(p); }
 
     private:
         int m_item {0};

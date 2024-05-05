@@ -2,33 +2,54 @@
 #include <optional>
 #include <exception>
 #include <iostream>
-#include "node.h"
+// #include "node.h"
 
 class LinkedList
 {
+    private:
+        class Node
+        {
+            public:
+                Node() = default;
+                Node(int item) : m_item{item} {}
+                ~Node();
+
+                int getItem() const { return m_item; }
+                void setItem(int item) { m_item = std::move(item); }
+                void setNext(Node* p) {m_next = std::move(p); }
+                Node* getNext() {return m_next;}
+            private:
+                int m_item {0};
+                Node* m_next {nullptr};
+        };
+
+        LinkedList::Node* m_head { new LinkedList::Node{} };
+        LinkedList::Node* h_find_by_item(int item);
+        LinkedList::Node* h_find_by_index(int index);
+        LinkedList::Node* h_find_last();
+        void delete_node(LinkedList::Node* prev);
+
     public:
         LinkedList() = default;
         ~LinkedList();
         LinkedList(const LinkedList& rhs) = default;
 
-        Node* search(int item);
-        Node* at(int index);
-        Node* insert(int item);
-        Node* insert(int item, int index);
+        LinkedList::Node* search(int item);
+        LinkedList::Node* at(int index);
+        LinkedList::Node* insert(int item);
+        LinkedList::Node* insert(int item, int index);
         void delete_by_item(int item);
         void delete_by_index(int index);
-
-    private:
-        Node* m_head { new Node{} };
-        Node* h_find_by_item(int item);
-        Node* h_find_by_index(int index);
-        Node* h_find_last();
-        void delete_node(Node* prev);
 };
 
-void LinkedList::delete_node(Node* prev)
+LinkedList::Node::~Node()
 {
-    Node* nxt = prev->getNext()->getNext();
+    std::cout << "LinkedList::Node destructor called." << std::endl;
+}
+
+void LinkedList::delete_node(LinkedList::Node* prev)
+{
+    LinkedList::Node* nxt = prev->getNext()->getNext();
     delete prev->getNext();
 
     prev->setNext(nxt);
@@ -37,8 +58,8 @@ void LinkedList::delete_node(Node* prev)
 LinkedList::~LinkedList()
 {
     std::cout << "linkedlist destructor called." << std::endl;
-    Node* curr { m_head };
-    Node* nxt { m_head->getNext() };
+    LinkedList::Node* curr { m_head };
+    LinkedList::Node* nxt { m_head->getNext() };
 
     while (nxt) {
         delete curr;
@@ -50,32 +71,32 @@ LinkedList::~LinkedList()
     curr = nullptr;
 }
 
-Node* LinkedList::search(int item)
+LinkedList::Node* LinkedList::search(int item)
 {
     return h_find_by_item(item);
 }
 
-Node* LinkedList::at(int index)
+LinkedList::Node* LinkedList::at(int index)
 {
     return h_find_by_index(index + 1);
 }
 
-Node* LinkedList::insert(int item)
+LinkedList::Node* LinkedList::insert(int item)
 {
     auto tail { h_find_last() };
     if (tail) {
-        auto newP = new Node{item};
+        auto newP = new LinkedList::Node{item};
         tail->setNext(newP);
         return tail->getNext();
     }
     return nullptr;
 }
 
-Node* LinkedList::insert(int item, int index)
+LinkedList::Node* LinkedList::insert(int item, int index)
 {
     auto target { h_find_by_index(index) };
 
-    auto newP { new Node{item} };
+    auto newP { new LinkedList::Node{item} };
     auto nxt { target->getNext() };
 
     target->setNext(newP);
@@ -89,8 +110,8 @@ Node* LinkedList::insert(int item, int index)
 
 void LinkedList::delete_by_item(int item)
 {
-    Node* prev { m_head };
-    Node* curr { prev->getNext() };
+    LinkedList::Node* prev { m_head };
+    LinkedList::Node* curr { prev->getNext() };
 
     while (curr) {
         if (curr->getItem() == item) {
@@ -107,8 +128,8 @@ void LinkedList::delete_by_item(int item)
 void LinkedList::delete_by_index(int index)
 {
     int temp { 0 };
-    Node* prev { m_head }; 
-    Node* curr { prev->getNext() };
+    LinkedList::Node* prev { m_head }; 
+    LinkedList::Node* curr { prev->getNext() };
 
     while (temp < index) {
         if (!curr) {
@@ -123,9 +144,9 @@ void LinkedList::delete_by_index(int index)
     delete_node(prev);
 }
 
-Node* LinkedList::h_find_by_item(int item)
+LinkedList::Node* LinkedList::h_find_by_item(int item)
 {
-    Node* curr { m_head };
+    LinkedList::Node* curr { m_head };
     
     while (curr) {
         if (curr->getItem() == item) {
@@ -137,9 +158,9 @@ Node* LinkedList::h_find_by_item(int item)
     throw std::invalid_argument{"해당 아이템을 찾을 수 없습니다."};
 }
 
-Node* LinkedList::h_find_by_index(int index)
+LinkedList::Node* LinkedList::h_find_by_index(int index)
 {
-    Node* curr { m_head };
+    LinkedList::Node* curr { m_head };
     int temp { 0 };
 
     while (curr && temp < index) {
@@ -154,9 +175,9 @@ Node* LinkedList::h_find_by_index(int index)
     throw std::out_of_range{"해당 인덱스가 리스트 범위를 초과합니다."};
 }
 
-Node* LinkedList::h_find_last()
+LinkedList::Node* LinkedList::h_find_last()
 {
-    Node* curr { m_head };
+    LinkedList::Node* curr { m_head };
     
     while (curr->getNext()) {
         curr = curr->getNext();
