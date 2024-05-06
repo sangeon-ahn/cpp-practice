@@ -10,7 +10,7 @@ self implementation <-> learning by best practice
 - [ ] Quick Sort
 - [ ] Radix Sort
 ### Data Structures
-- [ ] Linked List
+- [x] Linked List (In Progress)
 - [ ] Doubly Linked List
 - [ ] Hash Table
 - [ ] Binary Tree
